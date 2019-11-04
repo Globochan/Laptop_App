@@ -1,0 +1,118 @@
+﻿CREATE TABLE `Proizvodaci` (
+	`id_prozivodac` INT NOT NULL AUTO_INCREMENT,
+	`naziv` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`id_prozivodac`)
+);
+
+CREATE TABLE `RAM` (
+	`id_ram` INT NOT NULL AUTO_INCREMENT,
+	`id_proizvodac` INT NOT NULL,
+	`model` VARCHAR(255) NOT NULL,
+	`tip` VARCHAR(255),
+	`brzina` INT,
+	`velicina` INT,
+	`voltaza` DECIMAL,
+	`ECC` BOOLEAN NOT NULL,
+	PRIMARY KEY (`id_ram`)
+);
+
+CREATE TABLE `Procesor` (
+	`id_procesor` INT NOT NULL AUTO_INCREMENT,
+	`id_proizvodac` INT NOT NULL,
+	`model` VARCHAR(255) NOT NULL,
+	`clock` DECIMAL,
+	`jezgre` INT,
+	`boost` DECIMAL NOT NULL,
+	`dretve` INT NOT NULL,
+	`cahce` DECIMAL NOT NULL,
+	`TDP` DECIMAL NOT NULL,
+	PRIMARY KEY (`id_procesor`)
+);
+
+CREATE TABLE `Disk` (
+	`id_disk` INT NOT NULL AUTO_INCREMENT,
+	`id_proizvodac` INT NOT NULL,
+	`model` VARCHAR(255),
+	`velicina` DECIMAL NOT NULL,
+	`brzina` DECIMAL NOT NULL,
+	`broj_okretaja` DECIMAL,
+	`form` INT,
+	`read` DECIMAL,
+	`write` DECIMAL,
+	PRIMARY KEY (`id_disk`)
+);
+
+CREATE TABLE `Grafička` (
+	`id_graficka` INT NOT NULL AUTO_INCREMENT,
+	`id_proizvodac` INT NOT NULL,
+	`model` VARCHAR(255) NOT NULL,
+	`brzina` DECIMAL NOT NULL,
+	`memorija` DECIMAL NOT NULL,
+	`tip_memorije` VARCHAR(255) NOT NULL,
+	`arhitektura` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`id_graficka`)
+);
+
+CREATE TABLE `OS` (
+	`id_os` INT NOT NULL AUTO_INCREMENT,
+	`model` VARCHAR(255) NOT NULL,
+	`tip` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`id_os`)
+);
+
+CREATE TABLE `Ekran` (
+	`id_ekran` INT NOT NULL,
+	`velicina` DECIMAL NOT NULL,
+	`rezolucija` VARCHAR(255) NOT NULL,
+	`touch` BOOLEAN NOT NULL,
+	`tehnologija` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`id_ekran`)
+);
+
+CREATE TABLE `Priključak` (
+	`id_prikljucak` INT NOT NULL,
+	`naziv` VARCHAR(255) NOT NULL,
+	`opis` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`id_prikljucak`)
+);
+
+CREATE TABLE `Opis` (
+	`id_laptop` INT NOT NULL,
+	`opis` VARCHAR(255) NOT NULL,
+	`kljucne_rijeci` VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE `Laptop` (
+	`id_laptop` INT NOT NULL AUTO_INCREMENT,
+	`id_procesor` INT NOT NULL,
+	`id_ram` INT NOT NULL,
+	`id_disk` INT NOT NULL,
+	`id_graficka` INT NOT NULL,
+	`id_os` INT NOT NULL,
+	`id_ekran` INT NOT NULL,
+	`prikljucci` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (`id_laptop`)
+);
+
+ALTER TABLE `RAM` ADD CONSTRAINT `RAM_fk0` FOREIGN KEY (`id_proizvodac`) REFERENCES `Proizvodaci`(`id_prozivodac`);
+
+ALTER TABLE `Procesor` ADD CONSTRAINT `Procesor_fk0` FOREIGN KEY (`id_proizvodac`) REFERENCES `Proizvodaci`(`id_prozivodac`);
+
+ALTER TABLE `Disk` ADD CONSTRAINT `Disk_fk0` FOREIGN KEY (`id_proizvodac`) REFERENCES `Proizvodaci`(`id_prozivodac`);
+
+ALTER TABLE `Grafička` ADD CONSTRAINT `Grafička_fk0` FOREIGN KEY (`id_proizvodac`) REFERENCES `Proizvodaci`(`id_prozivodac`);
+
+ALTER TABLE `Opis` ADD CONSTRAINT `Opis_fk0` FOREIGN KEY (`id_laptop`) REFERENCES `Laptop`(`id_laptop`);
+
+ALTER TABLE `Laptop` ADD CONSTRAINT `Laptop_fk0` FOREIGN KEY (`id_procesor`) REFERENCES `Procesor`(`id_procesor`);
+
+ALTER TABLE `Laptop` ADD CONSTRAINT `Laptop_fk1` FOREIGN KEY (`id_ram`) REFERENCES `RAM`(`id_ram`);
+
+ALTER TABLE `Laptop` ADD CONSTRAINT `Laptop_fk2` FOREIGN KEY (`id_disk`) REFERENCES `Disk`(`id_disk`);
+
+ALTER TABLE `Laptop` ADD CONSTRAINT `Laptop_fk3` FOREIGN KEY (`id_graficka`) REFERENCES `Grafička`(`id_graficka`);
+
+ALTER TABLE `Laptop` ADD CONSTRAINT `Laptop_fk4` FOREIGN KEY (`id_os`) REFERENCES `OS`(`id_os`);
+
+ALTER TABLE `Laptop` ADD CONSTRAINT `Laptop_fk5` FOREIGN KEY (`id_ekran`) REFERENCES `Ekran`(`id_ekran`);
+
